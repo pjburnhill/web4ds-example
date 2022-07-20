@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>4Dviews</title>
+        
+        <meta content="text/html" charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        
+        <!-- CSS -->
+		<style>
+			body {
+				margin:0;
+				padding:0;
+				background-color:#1a1e2f;
+				width:100vw;
+				height:100vh;
+				overflow: hidden;
+				background-image: url(img/logo.png);
+				background-size: contain;
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+			.button4D {
+				float:left;
+				background:#353c58;
+				color:#fff;
+				padding:8px 12px;
+				border:1px solid #444;
+				border-radius: 4px;
+				margin:8px;
+				box-shadow: -1px 1px 4px 0px rgba(0,0,0,.25);
+				text-transform: uppercase;
+				font-family: sans-serif;
+				font-size: 12px;
+				font-weight: 100;
+			}
+			.button4D.optionPanel input {
+				margin:0 8px 0 0;
+				position: relative;
+			}
+			.button4D:not(.optionPanel):hover {
+				background:#03e7ae;
+				color:#1a1e2f;
+				cursor: pointer;
+			}
+			.button4D ul{
+				padding:0;
+				min-width: 136px;
+			}
+			.button4D ul li {
+				list-style-type: none;
+				text-align: right;
+				margin:8px 0px;
+			}
+			.button4D ul li span {
+				color:#ea3a87;
+			}
+			label {
+				text-transform: capitalize;
+				font-family: sans-serif;
+				font-size: 11px;
+				font-weight: 100;
+				color:#fff;
+				min-width:120px;
+				cursor: pointer;
+			}
+			#btnCacheOptions {
+				clear: both;
+			}
+			.optionPanel {
+				text-align: left;
+			}
+			.optionPanel h1{
+				text-transform: uppercase;
+				font-family: sans-serif;
+				font-size: 12px;
+				font-weight: 100;
+				margin: 0px 0px 16px 0px;
+			}
+			.optionTypeRadio{
+				display: block;
+				margin: 8px;
+			}
+			progress, .timeline {
+				position: fixed;
+				bottom:0;
+				left:0;
+				border-radius: 0px;
+				height:32px;
+				width:100%;
+				cursor: pointer;
+			}
+			progress::-webkit-progress-bar, .timeline {
+				background-color: #03e7ae;
+			}
+			progress::-moz-progress-bar {
+				background-color: #03e7ae;
+			}
+			progress::-webkit-progress-value {
+			  background-color: #ea3a87;
+			}
+		</style>
+    </head>
+    
+    <body id="container">
+        <canvas id="canvas4D"></canvas>
+        
+        <button id="btnLoad" class="button4D">LOAD</button>
+		<button id="btnPause" class="button4D">PAUSE</button>
+		<button id="btnPlay" class="button4D">PLAY</button>
+		<button id="btnMute" class="button4D">MUTE</button>
+		<button id="btnUnmute" class="button4D">UNMUTE</button>
+		<button id="btnDestroy" class="button4D">DESTROY</button>
+		<button id="btnDestroyLoad" class="button4D">DESTROY &amp; LOAD</button>
+		
+		<div class="button4D optionPanel">
+			<h1>Streaming option</h1>
+			<div id="btnCacheOptions" >
+				<input id="btnCacheDecoded" class="button4D" type="radio" name="cacheOption" value="cacheStore">
+				<label class="optionTypeRadio" for="btnCacheDecoded">Cache decoded data</label>
+
+				<input id="btnCacheLive" class="button4D" type="radio" name="cacheOption" value="cacheLive" checked>
+				<label class="optionTypeRadio" for="btnCacheLive">Live decoding</label>
+			</div>
+		</div>
+		
+		<div class="button4D optionPanel">
+			<ul>
+				<li>frame n°: <span id="framePlayed"></span></li>
+				<li>Sequence length: <span id="frameTotal"></span></li>
+				<li>decoded frames: <span id="frameDecoded"></span></li>
+				<li>Network speed: <span id="networkSpeed"></span></li>
+			</ul>
+		</div>
+		
+		
+<!--		<progress id="timeline4D" class="timeline" value="0" max="100"></progress>-->
+		<canvas id="timeline4D" class="timeline"></canvas>
+        
+        <!-- LIB: THREEJS FOR 4DVIEWS WEBPLAYER -->
+        <script src="threejs/three.js"></script>
+        <script src="threejs/WebGL.js"></script>
+
+        <script type="module" src="threejs/VRButton.js"></script>
+		<script type="module">
+			import { ARButton } from './threejs/ARButton.js';
+			import {renderer } from './js/script.js'
+			document.body.appendChild( ARButton.createButton( renderer,{	requiredFeatures: ['hit-test']
+			} ) );
+			renderer.xr.enabled = true;
+		</script>
+		
+		<!-- LIB: ADDITIONAL THREEJS PLUGIN -->
+		<script src="threejs/OrbitControls.js"></script>
+        
+		 <!-- LIB: 4DVIEWS WEBPLAYER -->
+		 <script async src="web4dv/CODEC.js"></script>
+		 <script src="web4dv/web4dvResource.js"></script>
+		 <script src="web4dv/web4dvImporter.js"></script>
+
+        <!-- YOUR JavaScript / JQuery script --> 
+        <script type="module"  src="js/script.js"></script>
+    </body>
+</html>
